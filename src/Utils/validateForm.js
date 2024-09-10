@@ -5,7 +5,7 @@ export const validateForm = (name, emailOrMobile, password) => {
 	const isPasswordValid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\W]{8,}$/.test(
 		password
 	); 
-    if(name === "" || emailOrMobile === "" || password === "") return "All fields are required";
+    if(emailOrMobile === "" || password === "") return "All fields are required";
 	if (name !== "" && !isNameValid) return "Name is invalid";
 	if (!isEmailValid && !isMobileValid) return "Email or Mobile is invalid";
 	if (!isPasswordValid) return "Password is invalid";
