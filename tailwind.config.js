@@ -2,7 +2,15 @@
 module.exports = {
 	content: ["./src/**/*.{js,jsx,ts,tsx}"],
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				netflixBlack: "#141414",
+				netflixRed: "#b9090b",
+			},
+			animation: {
+				shine: "shine 1.5s ease-in-out infinite",
+			},
+		},
 	},
 	plugins: [],
 };
