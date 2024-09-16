@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../Utils/firebase";
 import { signOut } from "firebase/auth";
-const Header = () => {
+
+const Header = (props) => {
 	return (
 		<div
 			id="logo"
@@ -16,19 +17,26 @@ const Header = () => {
 			</Link>
 
 			{auth.currentUser && (
-				<Link
-					to="/login"
-					onClick={() => {
-						signOut(auth).then(() => {
-							console.log("Signed out successfully");
-						});
-					}}
-					className="bg-[#e50914] px-4 py-2 font-semibold rounded-lg text-white mx-10 relative overflow-hidden">
-					<span className="relative z-10">Sign Out</span>
-					<div className="absolute inset-0">
-						<div className="absolute inset-0 bg-gradient-to-r from-white to-transparent w-full h-full opacity-50 transform -translate-x-full animate-shine"></div>
-					</div>
-				</Link>
+				<div className="flex items-center">
+					{/* Display the user's name */}
+					{props?.displayName && (
+						<span className="text-white mr-5 font-semibold">
+							Welcome, {props.displayName}!
+						</span>
+					)}
+
+					<Link
+						to="/login"
+						onClick={() => {
+							signOut(auth).then(() => {});
+						}}
+						className="bg-[#e50914] px-2 py-1.5 font-semibold rounded-md text-white mx-5 relative overflow-hidden">
+						<span className="relative z-10">Sign Out</span>
+						<div className="absolute inset-0">
+							<div className="absolute inset-0 bg-gradient-to-r from-white to-transparent w-full h-full opacity-50 transform -translate-x-full animate-shine"></div>
+						</div>
+					</Link>
+				</div>
 			)}
 		</div>
 	);

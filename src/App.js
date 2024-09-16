@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { auth } from "./Utils/firebase";
 import { addUser, removeUser } from "./Utils/Slice/userSlice";
 import DashBoard from "./Components/DashBoard";
+import MovieDetails from "./Components/MovieDetails";
 
 const appRoute = createBrowserRouter([
 	{
@@ -28,6 +29,10 @@ const appRoute = createBrowserRouter([
 		path: "/dashboard",
 		element: <DashBoard />,
 	},
+	{
+		path: "/movie/:id",
+		element: <MovieDetails />,
+	},
 ]);
 
 const App = () => {
@@ -43,9 +48,8 @@ const App = () => {
 						uid: uid,
 						photoURL: photoURL,
 					})
-					
 				);
-				
+
 				console.log("User is signed in");
 			} else {
 				dispatch(removeUser());
@@ -56,8 +60,6 @@ const App = () => {
 			unSubscribe();
 		};
 	}, []);
-	return (
-		<RouterProvider router={appRoute}/>
-	);
+	return <RouterProvider router={appRoute} />;
 };
 export default App;

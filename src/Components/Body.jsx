@@ -1,21 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { API_OPTIONS, MOVIES_IMG_URL, POPULAR_API } from "../Utils/constants";
+import { MOVIES_IMG_URL} from "../Utils/constants";
 import { Link } from "react-router-dom";
-const Body = () => {
-	const [movies, setMovies] = useState("");
-	const fetchPopularHomePage = async () => {
-		const data = await fetch(POPULAR_API, API_OPTIONS);
-		const json = await data.json();
-		console.log(json.results);
-		setMovies(json.results.slice(0, 4));
-	};
-	useEffect(() => {
-		fetchPopularHomePage();
-	}, []);
+import Shimmer from "./Shimmer"; // Import the Shimmer component
+import { useSelector } from "react-redux";
+import { usePopularMovies } from "../hooks/usePopularMovies";
 
-	return !movies.length ? (
-		<></>
-	) : (
+const Body = () => {
+	const movies = useSelector((store) => store?.movies?.popularMovies);
+	usePopularMovies(); // Fetch popular movies from the API
+	if(!movies) return <Shimmer />; // Show shimmer effect while loading
+	
+
+	return (
 		<div className="relative min-h-screen bg-black text-white">
 			{/* Movie Flix Title */}
 			<div className="absolute inset-x-0 top-0 mt-10 text-center">
@@ -51,20 +46,22 @@ const Body = () => {
 				</p>
 
 				{/* Movie Cards Grid */}
-				<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-10 mx-auto px-10">
-					{movies.map((movie) => (
-						<div
-							key={movie.id}
-							className="bg-gray-800 p-4 rounded-lg shadow-lg">
-							<img
-								src={MOVIES_IMG_URL + `${movie.backdrop_path}`}
-								alt="Movie Poster"
-								className="rounded-lg"
-							/>
-							<h3 className="text-xl mt-4 font-bold">{movie.original_title}</h3>
-							<p className="text-sm text-gray-400">{movie.overview}</p>
-						</div>
-					))}
+				<div className="flex no-scrollbar overflow-y-auto">
+					<div className="flex gap-8 mt-10 mx-auto px-10">
+						{movies.map((movie) => (
+							<div
+								key={movie.id}
+								className="bg-gray-800 p-4 rounded-lg shadow-lg relative w-72">
+								<img
+									src={MOVIES_IMG_URL + `${movie.backdrop_path}`}
+									alt="Movie Poster"
+									className="rounded-lg"
+								/>
+								<h3 className="text-xl mt-4 font-bold">{movie.title}</h3>
+								<p className="text-sm text-gray-400">{movie.overview}</p>
+							</div>
+						))}
+					</div>
 				</div>
 			</div>
 		</div>

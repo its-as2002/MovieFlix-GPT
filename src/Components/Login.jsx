@@ -7,7 +7,6 @@ import {
 	createUserWithEmailAndPassword,
 	updateProfile,
 	onAuthStateChanged,
-	signOut,
 } from "firebase/auth";
 import { auth } from "../Utils/firebase";
 import { useNavigate } from "react-router-dom";
@@ -65,14 +64,11 @@ const Login = () => {
 	};
 
 	const signIn = async () => {
-		const userCredential = await signInWithEmailAndPassword(
+		await signInWithEmailAndPassword(
 			auth,
 			emailRef.current.value,
 			passwordRef.current.value
 		);
-
-		const user = userCredential.user;
-		console.log(user);
 		navigate("/dashboard");
 		// const { displayName, email, uid } = userCredential.user;
 		// dispatch(addUser({ displayName, email, uid }));
@@ -88,9 +84,9 @@ const Login = () => {
 			displayName: nameRef.current.value,
 			photoURL: USER_PHOTO,
 		});
-		window.location.reload();//quick fix to update the user data in the redux store
+		window.location.reload(); //quick fix to update the user data in the redux store
 		// signOut(auth);
-		alert("User Created Successfully 🎉🎊 Please Sign In!");
+		alert("User Created Successfully 🎉🎊");
 	};
 
 	return (
